@@ -5,6 +5,23 @@
 
 namespace cpu_6502;
 
+enum adm6502
+{
+	ADM_A,
+	ADM_ABS,
+	ADM_ABX,
+	ADM_ABY,
+	ADM_IMM,
+	ADM_IMP,
+	ADM_IND,
+	ADM_INX,
+	ADM_INY,
+	ADM_REL,
+	ADM_ZPG,
+	ADM_ZPX,
+	ADM_ZPY
+};
+
 public partial class cpu
 {
 	byte A;
@@ -13,29 +30,30 @@ public partial class cpu
 
 	byte flags;
 	ushort PC;
+	byte SP;
 	
-	byte *mem;
+	byte[] mem;
 
 	int cycles;
 
+	/* Addressing mode */
+	adm6502 adm;
+
 	public cpu()
 	{
-		A = 0;
-		X = 0;
-		Y = 0;
-		flags = 0;
-		cycles = 0;
-	}
-
-	public void attach_mem(byte *mem)
-	{
-		this.mem = mem;
+		mem = new byte[0x10000];
 	}
 
 	public byte read_mem(ushort addr)
 	{
-		cycles += 1;
+		cycles++;
 		return mem[addr];
+	}
+
+	public void write_mem(ushort addr, byte val)
+	{
+		cycles += 1;
+		mem[addr] = val;
 	}
 
 	public void set_flag(byte flag, bool cond)
@@ -43,11 +61,23 @@ public partial class cpu
 		if (cond)
 			flags |= flag;
 		else
-			flags &= (~flag);
+			flags &= (byte)(~flag);
 	}
 
 	public bool read_flag(byte flag)
 	{
 		return (flags & flag) == flag;
+	}
+
+	public void push(byte val)
+	{
+		write_mem((ushort)(0x0100 | SP), val);
+		SP -= 1;
+	}
+
+	public byte pop()
+	{
+		SP += 1;
+		return read_mem((ushort)(0x0100 | SP));
 	}
 }
