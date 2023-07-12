@@ -18,9 +18,11 @@ public partial class cpu
 	byte FLAG_Z = 0x02;
 	byte FLAG_C = 0x01;
 
-	private bool neg8(byte a)
+	delegate void instruction(ushort addr);
+
+	bool neg8(byte a)
 	{
-		return neg8(a);
+		return (a & 0x80) > 0;
 	}
 
 	void adc(ushort addr)
