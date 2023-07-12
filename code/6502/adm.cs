@@ -7,7 +7,7 @@ namespace cpu_6502;
 
 public partial class cpu
 {
-	delegate ushort addrmode();
+	public delegate ushort addrmode();
 
 	ushort a()
 	{
@@ -43,6 +43,25 @@ public partial class cpu
 		adm = adm6502.ADM_ABX;
 
 		if ((ushort)(l + X) > 0xFF)
+			cycles += 1;
+
+		return h;
+	}
+
+	ushort aby()
+	{
+		byte l = read_mem(PC);
+		ushort h = read_mem((ushort)(PC + 1));
+
+		h <<= 8;
+		h |= l;
+		h += Y;
+
+		PC += 2;
+		
+		adm = adm6502.ADM_ABY;
+
+		if ((ushort)(l + Y) > 0xFF)
 			cycles += 1;
 
 		return h;
