@@ -15,7 +15,7 @@ public partial class cpu
 	ushort PC;
 	byte SP;
 	
-	byte[] mem;
+	public byte[] mem;
 
 	int cycles;
 
@@ -28,6 +28,7 @@ public partial class cpu
 	public cpu()
 	{
 		mem = new byte[0x10000];
+		opcodes_populate();
 	}
 
 	public byte read_mem(ushort addr)
@@ -83,6 +84,7 @@ public partial class cpu
 
 			ushort addr = op.adm();
 			op.ins(addr);
+			print_instruction(ins);
 
 			cycles += 1;
 		} else {
