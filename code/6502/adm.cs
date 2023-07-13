@@ -5,6 +5,23 @@
 
 namespace cpu_6502;
 
+enum adm6502
+{
+	ADM_A,
+	ADM_ABS,
+	ADM_ABX,
+	ADM_ABY,
+	ADM_IMM,
+	ADM_IMP,
+	ADM_IND,
+	ADM_INX,
+	ADM_INY,
+	ADM_REL,
+	ADM_ZPG,
+	ADM_ZPX,
+	ADM_ZPY
+};
+
 public partial class cpu
 {
 	public delegate ushort addrmode();
