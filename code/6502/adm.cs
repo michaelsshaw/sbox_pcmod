@@ -9,6 +9,11 @@ public partial class cpu
 {
 	public delegate ushort addrmode();
 
+	ushort invalid()
+	{
+		return 0;
+	}
+
 	ushort a()
 	{
 		adm = adm6502.ADM_A;

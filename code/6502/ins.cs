@@ -25,7 +25,7 @@ public partial class cpu
 		return (a & 0x80) > 0;
 	}
 
-	void invalid()
+	void invalid(ushort addr)
 	{
 	}
 
