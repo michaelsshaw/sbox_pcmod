@@ -7,23 +7,23 @@ namespace cpu_6502;
 
 public partial class cpu
 {
-	byte A;
-	byte X;
-	byte Y;
+	public byte A;
+	public byte X;
+	public byte Y;
 
-	byte flags;
-	ushort PC;
-	byte SP;
-	
+	public byte flags;
+	public ushort PC;
+	public byte SP;
+
 	public byte[] mem;
 
-	int cycles;
+	public int cycles;
 
 	/* Addressing mode */
-	adm6502 adm;
+	public adm6502 adm;
 
 	/* Number of bytes used by the current addressing mode */
-	int pbytes;
+	public int pbytes;
 
 	public cpu()
 	{

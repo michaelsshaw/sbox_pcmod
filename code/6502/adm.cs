@@ -5,7 +5,7 @@
 
 namespace cpu_6502;
 
-enum adm6502
+public enum adm6502
 {
 	ADM_A,
 	ADM_ABS,
