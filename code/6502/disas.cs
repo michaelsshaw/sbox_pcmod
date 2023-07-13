@@ -71,7 +71,7 @@ public partial class cpu
 			$"ABS ${hh}{ll}",
 			$"ABX ${hh}{ll},X",
 			$"ABY ${hh}{ll},Y",
-			$"IMM #",
+			$"IMM #{ll}",
 			$"IMPL",
 			$"IND ${hh}{ll})",
 			$"INX ${ll},X)",
