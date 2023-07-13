@@ -43,6 +43,41 @@ public partial class cpu
 
 	void print_instruction(int opc)
 	{
-		Log.Info(opcode_names[opc]);
+		string hh;
+		string ll;
+
+		byte l = 0;
+		if (pbytes > 0) {
+			l = read_mem((ushort)(PC - pbytes));
+			cycles -= 1;
+		}
+
+		byte h = 0;
+		if (pbytes == 2) {
+			h = read_mem((ushort)(PC - 1));
+			cycles -= 1;
+		}
+
+		ll = l.ToString("X2");
+		hh = h.ToString("X2");
+
+		string[] adm_names = {
+			$"A",
+			$"${hh}{ll}",
+			$"${hh}{ll},X",
+			$"${hh}{ll},Y",
+			$"#",
+			$"IMPL",
+			$"(${hh}{ll})",
+			$"(${ll},X)",
+			$"(${ll}),Y",
+			$"REL ${ll}",
+			$"ZPG ${ll}",
+			$"ZPG ${ll},X",
+			$"ZPG ${ll},Y",
+			$"INVALID OPCODE"
+		};
+
+		Log.Info($"{opc} {opcode_names[opc]} {adm_names[(int)(adm)]}");
 	}
 }

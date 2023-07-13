@@ -22,6 +22,9 @@ public partial class cpu
 	/* Addressing mode */
 	adm6502 adm;
 
+	/* Number of bytes used by the current addressing mode */
+	int pbytes;
+
 	public cpu()
 	{
 		mem = new byte[0x10000];

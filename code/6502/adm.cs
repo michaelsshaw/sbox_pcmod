@@ -19,7 +19,8 @@ enum adm6502
 	ADM_REL,
 	ADM_ZPG,
 	ADM_ZPX,
-	ADM_ZPY
+	ADM_ZPY,
+	ADM_INVALID,
 };
 
 public partial class cpu
@@ -28,11 +29,13 @@ public partial class cpu
 
 	ushort invalid()
 	{
+		adm = adm6502.ADM_INVALID;
 		return 0;
 	}
 
 	ushort a()
 	{
+		pbytes = 0;
 		adm = adm6502.ADM_A;
 		return 0;
 	}
@@ -46,6 +49,7 @@ public partial class cpu
 		h |= l;
 
 		PC += 2;
+		pbytes = 2;
 		adm = adm6502.ADM_ABS;
 
 		return h;
@@ -61,7 +65,7 @@ public partial class cpu
 		h += X;
 
 		PC += 2;
-		
+		pbytes = 2;
 		adm = adm6502.ADM_ABX;
 
 		if ((ushort)(l + X) > 0xFF)
@@ -80,7 +84,7 @@ public partial class cpu
 		h += Y;
 
 		PC += 2;
-		
+		pbytes = 2;
 		adm = adm6502.ADM_ABY;
 
 		if ((ushort)(l + Y) > 0xFF)
@@ -92,6 +96,7 @@ public partial class cpu
 	ushort imm()
 	{
 		PC += 1;
+		pbytes = 1;
 		adm = adm6502.ADM_IMM;
 
 		return (ushort)(PC - 1);
@@ -99,6 +104,7 @@ public partial class cpu
 
 	ushort imp()
 	{
+		pbytes = 0;
 		adm = adm6502.ADM_IMP;
 		return 0;
 	}
@@ -118,6 +124,7 @@ public partial class cpu
 		else
 			r = (ushort)(((read_mem((ushort)(h + 1))) << 8) | read_mem(h));
 
+		pbytes = 2;
 		PC += 2;
 		
 		adm = adm6502.ADM_IND;
@@ -133,6 +140,7 @@ public partial class cpu
 		ushort r = (ushort)((read_mem((ushort)(a1)) << 8) | read_mem(a));
 
 		cycles += 1;
+		pbytes = 1;
 		PC += 1;
 
 		adm = adm6502.ADM_INX;
@@ -155,6 +163,7 @@ public partial class cpu
 		if ((l + Y) > 0xFF)
 			cycles += 1;
 
+		pbytes = 1;
 		PC += 1;
 		
 		adm = adm6502.ADM_INY;
@@ -164,6 +173,7 @@ public partial class cpu
 	ushort rel()
 	{
 		byte b = read_mem(PC);
+		pbytes = 1;
 		PC += 1;
 
 		ushort r = PC;
@@ -180,6 +190,7 @@ public partial class cpu
 	ushort zpg()
 	{
 		byte b = read_mem(PC);
+		pbytes = 1;
 		PC += 1;
 
 		adm = adm6502.ADM_ZPG;
@@ -191,6 +202,7 @@ public partial class cpu
 		byte b = read_mem(PC);
 		ushort r = (ushort)(0x00FF & (b + X));
 
+		pbytes = 1;
 		PC += 1;
 		cycles += 1;
 
@@ -203,6 +215,7 @@ public partial class cpu
 		byte b = read_mem(PC);
 		ushort r = (ushort)(0x00FF & (b + Y));
 
+		pbytes = 1;
 		PC += 1;
 		cycles += 1;
 
