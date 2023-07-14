@@ -15,7 +15,6 @@ public partial class pcmod_addon
 		try {
 			file = FileSystem.Mounted.ReadAllBytes(fname);
 		} catch (Exception e) {
-			Log.Info("Exception here");
 			Log.Error(e.Message);
 		}
 
@@ -24,7 +23,6 @@ public partial class pcmod_addon
 
 		long i = 0;
 		cpu.reset();
-		cpu.PC = 0x400;
 
 		cpu.echo = true;
 		while (i < 2000) {
