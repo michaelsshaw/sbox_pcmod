@@ -1,4 +1,4 @@
-/* SPDX-License-Idenfiter: GPL-2.0-only */
+/* SPDX-License-Identifier: GPL-2.0-only */
 /* Copyright 2023 Michael Shaw */
 
 /* 6502 Disassembler */
