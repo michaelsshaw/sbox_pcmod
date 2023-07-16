@@ -6,12 +6,12 @@ idk
 
 ## License info
 
-The project as a whole is licensed under `SPDX-License-Identifer: GPL-2.0-only`,
+The project as a whole is licensed under `SPDX-License-Identifier: GPL-2.0-only`,
 a copy of which can be found in the COPYING file.
 
 Individual code contributions can be licensed under a select few licenses, which
 will be added to a separate license file as needed. These licenses include the
-following SPDX-License-Identifers:
+following SPDX-License-Identifiers:
 
 ```
 GPL-2.0-only
