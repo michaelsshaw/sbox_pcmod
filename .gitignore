@@ -10,6 +10,7 @@ obj/*
 Properties/*
 code/obj/*
 code/Properties/*
+code/GlobalSuppressions.cs
 
 # Auto-generated asset related files
 *.generated.*
