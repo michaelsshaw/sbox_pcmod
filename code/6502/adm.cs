@@ -1,11 +1,11 @@
-/* SPDX-License-Identifer: GPL-2.0-only */
+/* SPDX-License-Identifier: GPL-2.0-only */
 /* Copyright 2023 Michael Shaw */
 
 /* 6502 Addressing Modes */
 
 namespace cpu_6502;
 
-enum adm6502
+public enum adm6502
 {
 	ADM_A,
 	ADM_ABS,

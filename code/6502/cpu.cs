@@ -1,4 +1,4 @@
-/* SPDX-License-Identifer: GPL-2.0-only */
+/* SPDX-License-Identifier: GPL-2.0-only */
 /* Copyright 2023 Michael Shaw */
 
 /* 6502 CPU */
@@ -7,27 +7,28 @@ namespace cpu_6502;
 
 public partial class cpu
 {
-	byte A;
-	byte X;
-	byte Y;
+	public byte A;
+	public byte X;
+	public byte Y;
 
-	byte flags;
-	ushort PC;
-	byte SP;
-	
-	byte[] mem;
+	public byte flags;
+	public ushort PC;
+	public byte SP;
 
-	int cycles;
+	public byte[] mem;
+
+	public int cycles;
 
 	/* Addressing mode */
-	adm6502 adm;
+	public adm6502 adm;
 
 	/* Number of bytes used by the current addressing mode */
-	int pbytes;
+	public int pbytes;
 
 	public cpu()
 	{
 		mem = new byte[0x10000];
+		opcodes_populate();
 	}
 
 	public byte read_mem(ushort addr)
@@ -83,6 +84,7 @@ public partial class cpu
 
 			ushort addr = op.adm();
 			op.ins(addr);
+			print_instruction(ins);
 
 			cycles += 1;
 		} else {

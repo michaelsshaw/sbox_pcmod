@@ -1,4 +1,4 @@
-/* SPDX-License-Idenfiter: GPL-2.0-only */
+/* SPDX-License-Identifier: GPL-2.0-only */
 /* Copyright 2023 Michael Shaw */
 
 /* 6502 Disassembler */
@@ -9,6 +9,8 @@ namespace cpu_6502;
 
 public partial class cpu
 {
+	public bool echo = false;
+
 	string[] opcode_names = {
 		"BRK",  "ORA",  "NULL", "NULL", "NULL", "ORA",  "ASL",  "NULL", "PHP",
 		"ORA",  "ASL",  "NULL", "NULL", "ORA",  "ASL",  "NULL", "BPL",  "ORA",
@@ -43,18 +45,21 @@ public partial class cpu
 
 	void print_instruction(int opc)
 	{
+		if (!echo)
+			return;
+
 		string hh;
 		string ll;
 
 		byte l = 0;
 		if (pbytes > 0) {
-			l = read_mem((ushort)(PC - pbytes));
+			l = read_mem((ushort)(PC + 1));
 			cycles -= 1;
 		}
 
 		byte h = 0;
 		if (pbytes == 2) {
-			h = read_mem((ushort)(PC - 1));
+			h = read_mem((ushort)(PC + 2));
 			cycles -= 1;
 		}
 
@@ -63,14 +68,14 @@ public partial class cpu
 
 		string[] adm_names = {
 			$"A",
-			$"${hh}{ll}",
-			$"${hh}{ll},X",
-			$"${hh}{ll},Y",
-			$"#",
+			$"ABS ${hh}{ll}",
+			$"ABX ${hh}{ll},X",
+			$"ABY ${hh}{ll},Y",
+			$"IMM #{ll}",
 			$"IMPL",
-			$"(${hh}{ll})",
-			$"(${ll},X)",
-			$"(${ll}),Y",
+			$"IND ${hh}{ll})",
+			$"INX ${ll},X)",
+			$"INY ${ll}),Y",
 			$"REL ${ll}",
 			$"ZPG ${ll}",
 			$"ZPG ${ll},X",
@@ -78,6 +83,8 @@ public partial class cpu
 			$"INVALID OPCODE"
 		};
 
-		Log.Info($"{opc} {opcode_names[opc]} {adm_names[(int)(adm)]}");
+		string opc_hex = opc.ToString("X2");
+
+		Log.Info($"{opc_hex} {opcode_names[opc]} {adm_names[(int)(adm)]}");
 	}
 }
