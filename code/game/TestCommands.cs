@@ -51,7 +51,7 @@ public static class TestCommands
             return;
         }
 
-        var entity = new AppleEntity();
+        var entity = new ComputerEntity();
         entity.Position = SpawnPos.Value.WithZ(SpawnPos.Value.z + 32);
     }
 }

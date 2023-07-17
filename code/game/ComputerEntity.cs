@@ -1,4 +1,8 @@
-﻿using pcmod.Graphics;
+﻿/* SPDX-License-Identifier: GPL-2.0-only */
+/* Copyright 2023 Igrium */
+#nullable enable
+
+using pcmod.Graphics;
 using Sandbox;
 using System;
 using System.Collections.Generic;
@@ -9,11 +13,13 @@ using System.Threading.Tasks;
 namespace pcmod.GameIntegration;
 
 // TODO: Wait for Facepunch to fix their whitelist code so we can use BasePhysics
-public partial class AppleEntity : ModelEntity
+public partial class ComputerEntity : ModelEntity
 {
     // The second material in the first material group is targeted.
 
-    public WritableTexture Texture { get; private set; }
+    public WritableTexture? WritableTexture { get; private set; }
+
+    public Material? ScreenMaterial { get; set; }
 
     public override void Spawn()
     {
@@ -30,20 +36,21 @@ public partial class AppleEntity : ModelEntity
     public override void ClientSpawn()
     {
         base.ClientSpawn();
+
         foreach(var n in Model.Materials.Select(m => m.Name))
         {
         }
 
-        Texture = new WritableTexture(512, 512);
+        WritableTexture = new WritableTexture(512, 512);
+        ScreenMaterial = Material.Load("materials/screen/screen_overlay.vmat").CreateCopy();
+    }
 
-        foreach (var m in Model.Materials)
-        {
-            //Log.Info("attr: " + m.Attributes.GetTexture("colorAttr")?.ImageFormat);
-            //Log.Info("tex: " + Texture.Texture.ImageFormat);
-            //Log.Info("material: " + m.Name);
-            m.Attributes.Set("colorAttr", Texture.Texture);
-            //Log.Info("attr: " + m.Attributes.GetTexture("colorAttr")?.ImageFormat);
+    [GameEvent.Client.Frame]
+    public void Frame()
+    {
+        if (ScreenMaterial == null || WritableTexture == null) return;
 
-        }
+        ScreenMaterial.Set("SelfIllumMask", WritableTexture.Texture);
+        SetMaterialOverride(ScreenMaterial, "ScreenContent");
     }
 }
