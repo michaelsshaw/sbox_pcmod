@@ -13,13 +13,19 @@ using System.Threading.Tasks;
 namespace pcmod.GameIntegration;
 
 // TODO: Wait for Facepunch to fix their whitelist code so we can use BasePhysics
-public partial class ComputerEntity : ModelEntity
+public partial class ComputerEntity : ModelEntity, IUse
 {
     // The second material in the first material group is targeted.
 
-    public WritableTexture? WritableTexture { get; private set; }
+    public WritableTexture WritableTexture { get; private set; } = new WritableTexture(512, 512);
 
     public Material? ScreenMaterial { get; set; }
+
+    /// <summary>
+    /// The running CPU of this computer.
+    /// Not null if the computer is on.
+    /// </summary>
+    [BindComponent] public CPUComponent? CPU { get; }
 
     public override void Spawn()
     {
@@ -45,6 +51,17 @@ public partial class ComputerEntity : ModelEntity
         ScreenMaterial = Material.Load("materials/screen/screen_overlay.vmat").CreateCopy();
     }
 
+    /// <summary>
+    /// Create a new CPU component and boot it.
+    /// </summary>
+    /// <returns></returns>
+    public CPUComponent Boot()
+    {
+        var c = Components.Create<CPUComponent>();
+        c.OnSpawn();
+        return c;
+    }
+
     [GameEvent.Client.Frame]
     public void Frame()
     {
@@ -52,5 +69,16 @@ public partial class ComputerEntity : ModelEntity
 
         ScreenMaterial.Set("SelfIllumMask", WritableTexture.Texture);
         SetMaterialOverride(ScreenMaterial, "ScreenContent");
+    }
+
+    public bool OnUse(Entity user)
+    {
+        if (CPU == null) Boot();
+        return true;
+    }
+
+    public bool IsUsable(Entity user)
+    {
+        return true;
     }
 }
