@@ -17,6 +17,10 @@
 								from = "applescreen.vmat"
 								to = "models/computer/materials/applescreen.vmat"
 							},
+							{
+								from = "screen.vmat"
+								to = "materials/screen/screen_overlay.vmat"
+							},
 						]
 						use_global_default = false
 						global_default_material = ""
@@ -57,6 +61,7 @@
 							exception_list = 
 							[
 								"AppleScreen",
+								"AppleScreen_006",
 							]
 						}
 					},
