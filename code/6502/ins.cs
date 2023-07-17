@@ -20,7 +20,7 @@ public partial class cpu
 
 	public delegate void instruction(ushort addr);
 
-	bool neg8(byte a)
+	static bool neg8(byte a)
 	{
 		return (a & 0x80) > 0;
 	}
