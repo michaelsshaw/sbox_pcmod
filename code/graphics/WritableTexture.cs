@@ -32,6 +32,8 @@ public class WritableTexture
             .WithSize(new Vector2(width, height))
             .WithFormat(ImageFormat.BGR888)
             .WithAnonymous(true)
+            .WithDynamicUsage()
+            .WithUAVBinding()
             .Finish();
 
         Update(new byte[Width * Height * 3]);

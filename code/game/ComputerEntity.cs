@@ -13,72 +13,80 @@ using System.Threading.Tasks;
 namespace pcmod.GameIntegration;
 
 // TODO: Wait for Facepunch to fix their whitelist code so we can use BasePhysics
-public partial class ComputerEntity : ModelEntity, IUse
+public partial class ComputerEntity : ModelEntity, IUse, IScreenProvider
 {
-    // The second material in the first material group is targeted.
+	[ConVar.Client("pcmod.bouncelight")]
+	public static bool UseBounceLight { get; set; } = false;
 
-    public WritableTexture WritableTexture { get; private set; } = new WritableTexture(512, 512);
+	public WritableTexture ScreenTexture { get; private set; } = new WritableTexture(512, 512);
 
-    public Material? ScreenMaterial { get; set; }
+	public Material? ScreenMaterial { get; set; }
 
-    /// <summary>
-    /// The running CPU of this computer.
-    /// Not null if the computer is on.
-    /// </summary>
-    [BindComponent] public CPUComponent? CPU { get; }
+	/// <summary>
+	/// The running CPU of this computer.
+	/// Not null if the computer is on.
+	/// </summary>
+	[BindComponent] public CPUComponent? CPU { get; }
 
-    public override void Spawn()
-    {
-        base.Spawn();
-        SetModel("models/computer/apple2.vmdl");
+	/// <summary>
+	/// Casts a bounce light into the scene.
+	/// </summary>
+	public BounceLightComponent? BounceLight { get; private set; }
 
-        PhysicsEnabled = true;
-        UsePhysicsCollision = true;
+	public override void Spawn()
+	{
+		base.Spawn();
+		SetModel("models/computer/apple2.vmdl");
 
-        Tags.Add("solid");
-        Log.Info("spawning");
-    }
+		PhysicsEnabled = true;
+		UsePhysicsCollision = true;
 
-    public override void ClientSpawn()
-    {
-        base.ClientSpawn();
+		Tags.Add("solid");
+		Log.Info("spawning");
+	}
 
-        foreach(var n in Model.Materials.Select(m => m.Name))
-        {
-        }
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
 
-        WritableTexture = new WritableTexture(512, 512);
-        ScreenMaterial = Material.Load("materials/screen/screen_overlay.vmat").CreateCopy();
-    }
+		ScreenTexture = new WritableTexture(512, 512);
+		ScreenMaterial = Material.Load("materials/screen/screen_overlay.vmat").CreateCopy();
 
-    /// <summary>
-    /// Create a new CPU component and boot it.
-    /// </summary>
-    /// <returns></returns>
-    public CPUComponent Boot()
-    {
-        var c = Components.Create<CPUComponent>();
-        c.OnSpawn();
-        return c;
-    }
+		if (UseBounceLight)
+		{
+			BounceLight = Components.Create<BounceLightComponent>();
+			BounceLight.ScreenTexture = ScreenTexture.Texture;
+		}
+	}
 
-    [GameEvent.Client.Frame]
-    public void Frame()
-    {
-        if (ScreenMaterial == null || WritableTexture == null) return;
+	/// <summary>
+	/// Create a new CPU component and boot it.
+	/// </summary>
+	/// <returns></returns>
+	public CPUComponent Boot()
+	{
+		var c = Components.Create<CPUComponent>();
+		c.OnSpawn();
+		return c;
+	}
 
-        ScreenMaterial.Set("SelfIllumMask", WritableTexture.Texture);
-        SetMaterialOverride(ScreenMaterial, "ScreenContent");
-    }
+	[GameEvent.Client.Frame]
+	public void Frame()
+	{
+		if (ScreenMaterial == null || ScreenTexture == null) return;
 
-    public bool OnUse(Entity user)
-    {
-        if (CPU == null) Boot();
-        return true;
-    }
+		ScreenMaterial.Set("SelfIllumMask", ScreenTexture.Texture);
+		SetMaterialOverride(ScreenMaterial, "ScreenContent");
+	}
 
-    public bool IsUsable(Entity user)
-    {
-        return true;
-    }
+	public bool OnUse(Entity user)
+	{
+		if (CPU == null) Boot();
+		return true;
+	}
+
+	public bool IsUsable(Entity user)
+	{
+		return true;
+	}
 }

@@ -15,32 +15,39 @@ public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonC
 {
     public cpu_6502.cpu CPU { get; private set; } = new cpu_6502.cpu();
 
-    public int ScreenWidth => Entity.WritableTexture.Width;
-    public int ScreenHeight => Entity.WritableTexture.Height;
+    public int ScreenWidth => Entity.ScreenTexture.Width;
+    public int ScreenHeight => Entity.ScreenTexture.Height;
 
-    byte[] data = new byte[512 * 512 * 3];
+    byte[]? data = null;
 
     public void OnSpawn()
     {
         Log.Info("booting CPU");
     }
 
-    public void LoadRom(Span<byte> data)
+	protected override void OnActivate()
+	{
+		base.OnActivate();
+        data = new byte[ScreenWidth * ScreenHeight * 3];
+	}
+
+	public void LoadRom(Span<byte> data)
     {
         data.CopyTo(CPU.mem);
     }
 
     public void WriteToScreen(ReadOnlySpan<byte> data)
     {
-        Entity.WritableTexture?.Update(data);
+        Entity.ScreenTexture?.Update(data);
     }
 
     private int _frameInterval = 0;
 
-    //[GameEvent.Tick.Client]
+    [GameEvent.Tick.Client]
     public void WriteDummyTexture()
     {
-        DebugOverlay.ScreenText("Buffer: " + data.Length);
+        if (data == null) return;
+
         if (data == null) return;
 
         if (_frameInterval > 0)
