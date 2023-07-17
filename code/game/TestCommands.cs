@@ -42,8 +42,8 @@ public static class TestCommands
     [ConCmd.Server("ent_create_computer")]
     public static void SpawnComputer()
     {
-        //var SpawnPos = Caller?.GetViewTarget().EndPosition;
-        var SpawnPos = Caller?.Position;
+        var SpawnPos = Caller?.GetViewTarget().EndPosition;
+        //var SpawnPos = Caller?.Position;
 
         if (!SpawnPos.HasValue)
         {
