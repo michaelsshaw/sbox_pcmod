@@ -19,7 +19,7 @@ Layer0
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[0.000000 0.000000 0.000000 0.000000]"
-	TextureColor "materials/default/default_color.tga"
+	TextureColor "[1.000000 1.000000 1.000000 0.000000]"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -34,19 +34,19 @@ Layer0
 	TextureNormal "materials/default/default_normal.tga"
 
 	//---- Roughness ----
-	g_flRoughnessScaleFactor "1.000"
-	TextureRoughness "materials/default/default_rough.tga"
+	g_flRoughnessScaleFactor "0.337"
+	TextureRoughness "[0.259000 0.259000 0.259000 0.000000]"
 
 	//---- Self Illum ----
 	g_flSelfIllumAlbedoFactor "0.000"
-	g_flSelfIllumBrightness "-0.992"
+	g_flSelfIllumBrightness "0.000"
 	g_flSelfIllumScale "1.000"
 	g_vSelfIllumScrollSpeed "[0.000 0.000]"
 	g_vSelfIllumTint "[1.000000 1.000000 1.000000 0.000000]"
 	TextureSelfIllumMask "materials/screen/test_texture.png"
 
 	//---- Texture Coordinates ----
-	g_nScaleTexCoordUByModelScaleAxis "1"
+	g_nScaleTexCoordUByModelScaleAxis "0"
 	g_nScaleTexCoordVByModelScaleAxis "0"
 	g_vTexCoordOffset "[0.000 0.000]"
 	g_vTexCoordScale "[1.000 1.000]"
@@ -56,8 +56,13 @@ Layer0
 	g_flOpacityScale "1.000"
 	TextureTranslucency "materials/default/default_trans.tga"
 
+	Attributes
+	{
+		ScreenContent "1"
+	}
+
 	DynamicParams
 	{
-		TextureSelfIllumMask "colorAttr"
+		g_vColorTint "Screen"
 	}
 }
