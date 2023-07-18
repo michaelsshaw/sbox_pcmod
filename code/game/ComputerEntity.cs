@@ -16,7 +16,7 @@ namespace pcmod.GameIntegration;
 public partial class ComputerEntity : ModelEntity, IUse, IScreenProvider
 {
 	[ConVar.Client("pcmod.bouncelight")]
-	public static bool UseBounceLight { get; set; } = false;
+	public static bool UseBounceLight { get; set; } = true;
 
 	public WritableTexture ScreenTexture { get; private set; } = new WritableTexture(512, 512);
 

@@ -4,6 +4,7 @@
 
 using pcmod.Graphics;
 using Sandbox;
+using Sandbox.ModelEditor.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ public partial class BounceLightComponent : EntityComponent<ComputerEntity>, ISi
 
 	public Texture? ScreenTexture { get; set; }
 
+	//public PointLightEntity? LightEntity { get; private set; }
 	public PointLightEntity? LightEntity { get; private set; }
 
 	/// <summary>
@@ -30,7 +32,7 @@ public partial class BounceLightComponent : EntityComponent<ComputerEntity>, ISi
 	/// </summary>
 	public int UpdateInterval { get; set; } = 1;
 
-	public float Brightness { get; set; } = 10;
+	public float Brightness { get; set; } = .01f;
 
 	public BounceLightComponent()
 	{
@@ -58,8 +60,12 @@ public partial class BounceLightComponent : EntityComponent<ComputerEntity>, ISi
 	private int _interval;
 
 	[GameEvent.Tick.Client]
-	protected virtual void TickFrame()
+	protected virtual void TickClient()
 	{
+		if (LightEntity == null) return;
+		//DebugOverlay.Axis(LightEntity.Transform.Position, LightEntity.Transform.Rotation, depthTest: false);
+		//DebugOverlay.Text($"Size: [{LightEntity.LightSize}, {LightEntity.PlaneHeight}]", LightEntity.Transform.Position + new Vector3(0, 0, 32));
+
 		if (_interval > 0)
 		{
 			_interval--;
@@ -70,18 +76,35 @@ public partial class BounceLightComponent : EntityComponent<ComputerEntity>, ISi
 		}
 	}
 
-	
-
 	private PointLightEntity CreateLight()
 	{
-		var light = new PointLightEntity()
+		var plane = GetLightPlane();
+		var light = new RectangleLightEntity()
 		{
 			Brightness = Brightness,
-			Transform = Entity.Transform,
-			Range = 64
+			Transform = Entity.Transform.ToWorld(plane.Transform),
+			LightSize = plane.Width / 2f,
+			PlaneHeight = plane.Height / 2f,
+			Range = 64,
+			EnableShadowCasting = false
 		};
 		light.SetParent(Entity);
 		return light;
+	}
+
+	private LimitedPlane GetLightPlane()
+	{
+
+		if ( Entity.Model.TryGetData(out ModelComputerScreenLight[] lights ))
+		{
+			var plane = lights[0].Plane;
+			plane = plane.WithRotation(plane.Transform.RotationToWorld(Rotation.FromPitch(-90)));
+			return plane;
+		} else
+		{
+			Log.Warning($"no computer screen light node found in {Entity.Model.Name}");
+			return new LimitedPlane(new Transform(new Vector3()), new Vector2(16, 16));
+		}
 	}
 
 	private void UpdateColor()
@@ -103,8 +126,6 @@ public partial class BounceLightComponent : EntityComponent<ComputerEntity>, ISi
 			LightEntity.Color = color.ToColor();
 			LightEntity.RenderDirty();
 		}
-		DebugOverlay.Texture(DownscaledTexture, new Rect(0, 0, 64, 64));
-
 
 	}
 }

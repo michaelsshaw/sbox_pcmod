@@ -1,4 +1,7 @@
-﻿using pcmod.Graphics;
+﻿/* SPDX-License-Identifier: GPL-2.0-only */
+/* Copyright 2023 Igrium */
+
+using pcmod.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;

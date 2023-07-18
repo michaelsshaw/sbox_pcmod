@@ -1,5 +1,6 @@
 ﻿/* SPDX-License-Identifier: GPL-2.0-only */
 /* Copyright 2023 Igrium */
+#nullable enable
 
 using System;
 using System.Collections.Generic;
