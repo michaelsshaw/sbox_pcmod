@@ -13,55 +13,62 @@ namespace pcmod.GameIntegration;
 
 public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonComponent
 {
-    public cpu_6502.cpu CPU { get; private set; } = new cpu_6502.cpu();
+	public cpu_6502.cpu CPU { get; private set; } = new cpu_6502.cpu();
 
-    public int ScreenWidth => Entity.WritableTexture.Width;
-    public int ScreenHeight => Entity.WritableTexture.Height;
+	public int ScreenWidth => Entity.ScreenTexture.Width;
+	public int ScreenHeight => Entity.ScreenTexture.Height;
 
-    byte[] data = new byte[512 * 512 * 3];
+	byte[]? data = null;
 
-    public void OnSpawn()
-    {
-        Log.Info("booting CPU");
-    }
+	public void OnSpawn()
+	{
+		Log.Info("booting CPU");
+	}
 
-    public void LoadRom(Span<byte> data)
-    {
-        data.CopyTo(CPU.mem);
-    }
+	protected override void OnActivate()
+	{
+		base.OnActivate();
+		data = new byte[ScreenWidth * ScreenHeight * 3];
+	}
 
-    public void WriteToScreen(ReadOnlySpan<byte> data)
-    {
-        Entity.WritableTexture?.Update(data);
-    }
+	public void LoadRom(Span<byte> data)
+	{
+		data.CopyTo(CPU.mem);
+	}
 
-    private int _frameInterval = 0;
+	public void WriteToScreen(ReadOnlySpan<byte> data)
+	{
+		Entity.ScreenTexture?.Update(data);
+	}
 
-    //[GameEvent.Tick.Client]
-    public void WriteDummyTexture()
-    {
-        DebugOverlay.ScreenText("Buffer: " + data.Length);
-        if (data == null) return;
+	private int _frameInterval = 0;
 
-        if (_frameInterval > 0)
-        {
-            _frameInterval--;
-            return;
-        }
+	[GameEvent.Tick.Client]
+	public void WriteDummyTexture()
+	{
+		if (data == null) return;
 
-        int time = (int) (Time.Now * 1000);
-        for (int i = 0; i < ScreenWidth * ScreenHeight * 3; i += 3)
-        {
-            byte b = (byte)(time & 0xFF + i);
-            byte g = (byte)((time >> 8) & 0xFF + i);
-            byte r = (byte)((time >> 16) & 0xFF + i);
+		if (data == null) return;
 
-            data[i] = b;
-            data[i + 1] = g;
-            data[i + 2] = r;
-        }
+		if (_frameInterval > 0)
+		{
+			_frameInterval--;
+			return;
+		}
 
-        WriteToScreen(data.AsSpan());
-        _frameInterval = 4;
-    }
+		int time = (int)(Time.Now * 1000);
+		for (int i = 0; i < ScreenWidth * ScreenHeight * 3; i += 3)
+		{
+			byte b = (byte)(time & 0xFF + i);
+			byte g = (byte)((time >> 8) & 0xFF + i);
+			byte r = (byte)((time >> 16) & 0xFF + i);
+
+			data[i] = b;
+			data[i + 1] = g;
+			data[i + 2] = r;
+		}
+
+		WriteToScreen(data.AsSpan());
+		_frameInterval = 4;
+	}
 }

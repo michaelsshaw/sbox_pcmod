@@ -88,9 +88,20 @@
 						game_keys = 
 						{
 							bonename = ""
-							dimensions = [ 11.0652, 23.9414, 11.4316 ]
-							offset_origin = [ -0.822176, -0.004052, -3.84591 ]
+							dimensions = [ 11.0652, 25.2204, 8.43612 ]
+							offset_origin = [ -0.822176, 0.635539, -4.56806 ]
 							offset_angles = [ 0.0, 0.0, 0.0 ]
+						}
+					},
+					{
+						_class = "GenericGameData"
+						game_class = "pcmod_screen_light"
+						game_keys = 
+						{
+							dimensions = [ 9.78192, 14.6322, 0.0 ]
+							offset_origin = [ 7.50005, -1.28437, 0.019529 ]
+							offset_angles = [ 87.1462, 0.0, 0.0 ]
+							bonename = ""
 						}
 					},
 				]
