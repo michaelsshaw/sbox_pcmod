@@ -31,13 +31,13 @@ public partial class cpu
 		opcodes_populate();
 	}
 
-	public byte read_mem(ushort addr)
+	public virtual byte read_mem(ushort addr)
 	{
-		cycles++;
+		cycles += 1;
 		return mem[addr];
 	}
 
-	public void write_mem(ushort addr, byte val)
+	public virtual void write_mem(ushort addr, byte val)
 	{
 		cycles += 1;
 		mem[addr] = val;
