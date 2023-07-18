@@ -69,7 +69,8 @@ public partial class BounceLightComponent : EntityComponent<ComputerEntity>, ISi
 		if (_interval > 0)
 		{
 			_interval--;
-		} else
+		}
+		else
 		{
 			UpdateColor();
 			_interval = 0;
@@ -95,12 +96,13 @@ public partial class BounceLightComponent : EntityComponent<ComputerEntity>, ISi
 	private LimitedPlane GetLightPlane()
 	{
 
-		if ( Entity.Model.TryGetData(out ModelComputerScreenLight[] lights ))
+		if (Entity.Model.TryGetData(out ModelComputerScreenLight[] lights))
 		{
 			var plane = lights[0].Plane;
 			plane = plane.WithRotation(plane.Transform.RotationToWorld(Rotation.FromPitch(-90)));
 			return plane;
-		} else
+		}
+		else
 		{
 			Log.Warning($"no computer screen light node found in {Entity.Model.Name}");
 			return new LimitedPlane(new Transform(new Vector3()), new Vector2(16, 16));

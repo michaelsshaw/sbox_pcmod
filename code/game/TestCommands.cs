@@ -13,47 +13,47 @@ namespace pcmod.GameIntegration;
 
 public static class TestCommands
 {
-    static Entity? Caller
-    {
-        get
-        {
-            var client = ConsoleSystem.Caller;
+	static Entity? Caller
+	{
+		get
+		{
+			var client = ConsoleSystem.Caller;
 
-            if (client == null)
-            {
-                var clients = Game.Clients;
-                if (clients.Any())
-                {
-                    client = clients.First();
-                }
-            }
+			if (client == null)
+			{
+				var clients = Game.Clients;
+				if (clients.Any())
+				{
+					client = clients.First();
+				}
+			}
 
-            if (client == null) return null;
+			if (client == null) return null;
 
-            if (client.Pawn is Entity p)
-            {
-                return p;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+			if (client.Pawn is Entity p)
+			{
+				return p;
+			}
+			else
+			{
+				return null;
+			}
+		}
+	}
 
-    [ConCmd.Server("ent_create_computer")]
-    public static void SpawnComputer()
-    {
-        var SpawnPos = Caller?.GetViewTarget().EndPosition;
-        //var SpawnPos = Caller?.Position;
+	[ConCmd.Server("ent_create_computer")]
+	public static void SpawnComputer()
+	{
+		var SpawnPos = Caller?.GetViewTarget().EndPosition;
+		//var SpawnPos = Caller?.Position;
 
-        if (!SpawnPos.HasValue)
-        {
-            Log.Error("Unable to resolve spawn position.");
-            return;
-        }
+		if (!SpawnPos.HasValue)
+		{
+			Log.Error("Unable to resolve spawn position.");
+			return;
+		}
 
-        var entity = new ComputerEntity();
-        entity.Position = SpawnPos.Value.WithZ(SpawnPos.Value.z + 32);
-    }
+		var entity = new ComputerEntity();
+		entity.Position = SpawnPos.Value.WithZ(SpawnPos.Value.z + 32);
+	}
 }
