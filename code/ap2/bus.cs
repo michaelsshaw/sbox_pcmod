@@ -31,7 +31,7 @@ public class cpu : cpu_6502.cpu
 {
 	public override byte read_mem(ushort addr)
 	{
-		cycles++;
+		cycles += 1;
 		return mem[addr];
 	}
 
