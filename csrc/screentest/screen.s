@@ -8,6 +8,9 @@ _main:
 	ldx #$69
 	ldy #$AB
 
+_hlt:
+	jmp _hlt
+
 _nmi:
 	rti
 _irq:
