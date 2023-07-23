@@ -37,6 +37,7 @@ _begin_loop:
 
 _inc_dma:
 	inc dma_store_hi
+	cmp #dma_store_hi
 	beq _done
 	jmp _begin_loop
 
