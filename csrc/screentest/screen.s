@@ -25,10 +25,10 @@ _main:
 	sta dma_store_hi
 	pla
 
-	; store 256 bytes into memory then increment the stored dma address
 	ldx #$FF
 
 _begin_loop:
+	; store 256 bytes into memory then increment the stored dma address
 	inx
 	sta (dma_store_lo),y
 	iny
