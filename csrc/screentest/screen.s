@@ -33,6 +33,7 @@ _begin_loop:
 	sta (dma_store_lo),y
 	iny
 	beq _inc_dma
+	jmp _begin_loop
 
 _inc_dma:
 	inc dma_store_hi
