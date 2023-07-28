@@ -30,7 +30,8 @@ _main:
 _begin_loop:
 	; store 256 bytes into memory then increment the stored dma address
 	inx
-	stx (dma_store_lo),y
+	txa
+	sta (dma_store_lo),y
 	iny
 	beq _inc_dma
 	jmp _begin_loop
