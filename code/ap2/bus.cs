@@ -29,6 +29,9 @@ public partial class bus
 
 public class cpu : cpu_6502.cpu
 {
+	const ushort AP2_DMA_BEGIN = 0xC000;
+	const ushort PWOF_ADDR = 0xC001;
+
 	public override byte read_mem(ushort addr)
 	{
 		cycles += 1;
@@ -37,7 +40,17 @@ public class cpu : cpu_6502.cpu
 
 	public override void write_mem(ushort addr, byte val)
 	{
-		cycles += 1;
-		mem[addr] = val;
+		if (addr == AP2_DMA_BEGIN) {
+			byte[] vmem = new byte[256 * 256];
+
+			for (int i = 0; i < vmem.Length; i++) {
+				vmem[i] = mem[0x2900 + i];
+			}
+		} else if (addr == PWOF_ADDR) {
+			
+		} else {
+                        cycles += 1;
+                        mem[addr] = val;
+		}
 	}
 }

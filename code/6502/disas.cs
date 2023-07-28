@@ -75,7 +75,7 @@ public partial class cpu
 			$"IMPL",
 			$"IND ${hh}{ll})",
 			$"INX ${ll},X)",
-			$"INY ${ll}),Y",
+			$"INY (${ll}),Y",
 			$"REL ${ll}",
 			$"ZPG ${ll}",
 			$"ZPG ${ll},X",
@@ -84,7 +84,11 @@ public partial class cpu
 		};
 
 		string opc_hex = opc.ToString("X2");
+		string a = A.ToString("X2");
+		string x = X.ToString("X2");
+		string y = Y.ToString("X2");
+		string pc = PC.ToString("X4");
 
-		Log.Info($"{opc_hex} {opcode_names[opc]} {adm_names[(int)(adm)]}");
+		Log.Info($"A: {a} X: {x} Y: {y} PC: {pc} | {opc_hex} {opcode_names[opc]} {adm_names[(int)(adm)]}");
 	}
 }

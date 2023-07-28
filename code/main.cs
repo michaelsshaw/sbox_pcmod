@@ -25,7 +25,7 @@ public partial class pcmod_addon
 		cpu.reset();
 
 		cpu.echo = true;
-		while (i < 2000) {
+		while (i < 40000) {
 			cpu.cycle();
 			i++;
 		}
