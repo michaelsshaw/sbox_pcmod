@@ -18,7 +18,7 @@ public partial class ComputerEntity : ModelEntity, IUse, IScreenProvider
 	[ConVar.Client("pcmod.bouncelight")]
 	public static bool UseBounceLight { get; set; } = true;
 
-	public WritableTexture ScreenTexture { get; private set; } = new WritableTexture(512, 512);
+	public WritableTexture ScreenTexture { get; private set; } = new WritableTexture(256, 256);
 
 	public Material? ScreenMaterial { get; set; }
 

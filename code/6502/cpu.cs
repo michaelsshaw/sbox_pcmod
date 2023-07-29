@@ -83,8 +83,8 @@ public partial class cpu
 			PC += 1;
 
 			ushort addr = op.adm();
-			op.ins(addr);
 			print_instruction(ins);
+			op.ins(addr);
 
 			cycles += 1;
 		} else {

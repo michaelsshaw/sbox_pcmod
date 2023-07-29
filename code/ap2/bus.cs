@@ -41,11 +41,15 @@ public class cpu : cpu_6502.cpu
 	public override void write_mem(ushort addr, byte val)
 	{
 		if (addr == AP2_DMA_BEGIN) {
-			byte[] vmem = new byte[256 * 256];
+			byte[] vmem = new byte[256 * 256 * 3];
 
 			for (int i = 0; i < vmem.Length; i++) {
-				vmem[i] = mem[0x2900 + i];
+				vmem[i * 3 + 0] = (byte)(((mem[0x2900 + i]) & 0x3) * 64);
+				vmem[i * 3 + 1] = (byte)((((mem[0x2900 + i]) >> 2) & 0x7) * 32);
+				vmem[i * 3 + 1] = (byte)((((mem[0x2900 + i]) >> 5) & 0x3) * 64);
 			}
+			WriteToScreen(vmem.AsSpan<byte>());
+
 		} else if (addr == PWOF_ADDR) {
 			
 		} else {

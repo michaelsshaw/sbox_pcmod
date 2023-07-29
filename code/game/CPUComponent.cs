@@ -13,7 +13,7 @@ namespace pcmod.GameIntegration;
 
 public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonComponent
 {
-	public cpu_6502.cpu CPU { get; private set; } = new cpu_6502.cpu();
+	public pcmod.ap2.bus bus = new pcmod.ap2.bus();
 
 	public int ScreenWidth => Entity.ScreenTexture.Width;
 	public int ScreenHeight => Entity.ScreenTexture.Height;
@@ -23,17 +23,13 @@ public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonC
 	public void OnSpawn()
 	{
 		Log.Info("booting CPU");
+		loadfile("bin/65/screen.rom");
 	}
 
 	protected override void OnActivate()
 	{
 		base.OnActivate();
 		data = new byte[ScreenWidth * ScreenHeight * 3];
-	}
-
-	public void LoadRom(Span<byte> data)
-	{
-		data.CopyTo(CPU.mem);
 	}
 
 	public void WriteToScreen(ReadOnlySpan<byte> data)
@@ -70,5 +66,33 @@ public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonC
 
 		WriteToScreen(data.AsSpan());
 		_frameInterval = 4;
+	}
+
+	public static void loadfile(string fname)
+	{
+		Span<byte> file = null; 
+		try {
+			file = FileSystem.Mounted.ReadAllBytes(fname);
+		} catch (Exception e) {
+			Log.Error(e.Message);
+		}
+
+		cpu_6502.cpu cpu = new cpu_6502.cpu();
+		file.CopyTo(cpu.mem);
+
+		long i = 0;
+		cpu.reset();
+
+		cpu.echo = true;
+		while (i < 40000) {
+			cpu.cycle();
+			i++;
+		}
+
+		cpu.echo = false;
+		while (i < 40_000_000) {
+			cpu.cycle();
+			i++;
+		}
 	}
 }
