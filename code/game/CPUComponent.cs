@@ -13,7 +13,8 @@ namespace pcmod.GameIntegration;
 
 public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonComponent
 {
-	public pcmod.ap2.bus bus = new pcmod.ap2.bus();
+	//public pcmod.ap2.bus bus = new pcmod.ap2.bus();
+	public pcmod.ap2.bus? Bus { get; private set; }
 
 	public int ScreenWidth => Entity.ScreenTexture.Width;
 	public int ScreenHeight => Entity.ScreenTexture.Height;
@@ -23,6 +24,7 @@ public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonC
 	public void OnSpawn()
 	{
 		Log.Info("booting CPU");
+		Bus = new pcmod.ap2.bus(Entity.ScreenTexture);
 		loadfile("bin/65/screen.rom");
 	}
 
@@ -39,34 +41,34 @@ public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonC
 
 	private int _frameInterval = 0;
 
-	[GameEvent.Tick.Client]
-	public void WriteDummyTexture()
-	{
-		if (data == null) return;
+	//[GameEvent.Tick.Client]
+	//public void WriteDummyTexture()
+	//{
+	//	if (data == null) return;
 
-		if (data == null) return;
+	//	if (data == null) return;
 
-		if (_frameInterval > 0)
-		{
-			_frameInterval--;
-			return;
-		}
+	//	if (_frameInterval > 0)
+	//	{
+	//		_frameInterval--;
+	//		return;
+	//	}
 
-		int time = (int)(Time.Now * 1000);
-		for (int i = 0; i < ScreenWidth * ScreenHeight * 3; i += 3)
-		{
-			byte b = (byte)(time & 0xFF + i);
-			byte g = (byte)((time >> 8) & 0xFF + i);
-			byte r = (byte)((time >> 16) & 0xFF + i);
+	//	int time = (int)(Time.Now * 1000);
+	//	for (int i = 0; i < ScreenWidth * ScreenHeight * 3; i += 3)
+	//	{
+	//		byte b = (byte)(time & 0xFF + i);
+	//		byte g = (byte)((time >> 8) & 0xFF + i);
+	//		byte r = (byte)((time >> 16) & 0xFF + i);
 
-			data[i] = b;
-			data[i + 1] = g;
-			data[i + 2] = r;
-		}
+	//		data[i] = b;
+	//		data[i + 1] = g;
+	//		data[i + 2] = r;
+	//	}
 
-		WriteToScreen(data.AsSpan());
-		_frameInterval = 4;
-	}
+	//	WriteToScreen(data.AsSpan());
+	//	_frameInterval = 4;
+	//}
 
 	public static void loadfile(string fname)
 	{
