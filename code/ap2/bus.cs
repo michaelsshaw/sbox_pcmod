@@ -55,11 +55,11 @@ public class ap2cpu : cpu_6502.cpu
 		{
 			byte[] vmem = new byte[256 * 256 * 3];
 
-			for (int i = 0; i < vmem.Length; i++)
+			for (int i = 0; i < vmem.Length / 3; i++)
 			{
 				vmem[i * 3 + 0] = (byte)(((mem[0x2900 + i]) & 0x3) * 64);
 				vmem[i * 3 + 1] = (byte)((((mem[0x2900 + i]) >> 2) & 0x7) * 32);
-				vmem[i * 3 + 1] = (byte)((((mem[0x2900 + i]) >> 5) & 0x3) * 64);
+				vmem[i * 3 + 2] = (byte)((((mem[0x2900 + i]) >> 5) & 0x3) * 64);
 			}
 			screen.Update(vmem.AsSpan<byte>());
 

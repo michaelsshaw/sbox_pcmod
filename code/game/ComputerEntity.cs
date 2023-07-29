@@ -49,7 +49,7 @@ public partial class ComputerEntity : ModelEntity, IUse, IScreenProvider
 	{
 		base.ClientSpawn();
 
-		ScreenTexture = new WritableTexture(512, 512);
+		ScreenTexture = new WritableTexture(256, 256);
 		ScreenMaterial = Material.Load("materials/screen/screen_overlay.vmat").CreateCopy();
 
 		if (UseBounceLight)

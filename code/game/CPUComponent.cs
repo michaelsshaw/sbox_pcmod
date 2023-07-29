@@ -70,7 +70,7 @@ public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonC
 	//	_frameInterval = 4;
 	//}
 
-	public static void loadfile(string fname)
+	public void loadfile(string fname)
 	{
 		Span<byte> file = null; 
 		try {
@@ -78,8 +78,11 @@ public partial class CPUComponent : EntityComponent<ComputerEntity>, ISingletonC
 		} catch (Exception e) {
 			Log.Error(e.Message);
 		}
+		if (Bus == null)
+			throw new InvalidOperationException("The computer must be on to load a rom");
 
-		cpu_6502.cpu cpu = new cpu_6502.cpu();
+		//cpu_6502.cpu cpu = new cpu_6502.cpu();
+		var cpu = Bus.cpu;
 		file.CopyTo(cpu.mem);
 
 		long i = 0;
