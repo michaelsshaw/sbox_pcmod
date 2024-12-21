@@ -1,7 +1,7 @@
 {
   "Title": "PC Mod",
   "Type": "game",
-  "Org": "local",
+  "Org": "pcmodders",
   "Ident": "pcmod",
   "Schema": 1,
   "IncludeSourceFiles": false,
@@ -22,6 +22,13 @@
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "CsProjName": "",
-    "StartupScene": "scenes/minimal.scene"
+    "StartupScene": "scenes/minimal.scene",
+    "ProjectTemplate": null,
+    "MapStartupScene": "scenes/minimal.scene",
+    "LaunchMode": "Launcher",
+    "ControlModes": {
+      "Keyboard": true
+    },
+    "ParentPackage": "sbox-walker"
   }
 }

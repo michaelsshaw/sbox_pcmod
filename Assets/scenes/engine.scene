@@ -2,26 +2,11 @@
   "__guid": "cd285893-d0ab-4423-9b5f-9a94f46ce96c",
   "GameObjects": [
     {
-      "__guid": "73f72866-200a-46df-b519-c7d099f389f5",
-      "Flags": 0,
-      "Name": "Scene Information",
-      "Enabled": true,
-      "Components": [
-        {
-          "__type": "Sandbox.SceneInformation",
-          "__guid": "49a6e898-c19d-46f8-8c8e-ac2d1ecd875a",
-          "Description": "",
-          "SceneTags": "",
-          "Title": "minimal"
-        }
-      ]
-    },
-    {
       "__guid": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
-      "Flags": 2048,
+      "Flags": 0,
       "Name": "Camera",
-      "Position": "1206.468,-103.4652,1041.78",
-      "Rotation": "-0.1174543,0.03891734,0.9419548,0.3121076",
+      "Position": "-117.5462,-17.32553,64.03128",
+      "Rotation": "-0.03728334,0.06217941,0.5128959,0.8553838",
       "Enabled": true,
       "Components": [
         {
@@ -92,12 +77,6 @@
           "Scale": 0.2
         },
         {
-          "__type": "Sandbox.FilmGrain",
-          "__guid": "bc63d400-9d11-46d7-9834-bb724569292a",
-          "Intensity": 0.02,
-          "Response": 2
-        },
-        {
           "__type": "Sandbox.Vignette",
           "__guid": "f8959bfb-3630-4b42-81be-def4d1d6a301",
           "Center": "0.5,0.5",
@@ -109,29 +88,102 @@
       ]
     },
     {
-      "__guid": "c2e2b2e8-62e8-4ef3-8336-002a3a68f88e",
+      "__guid": "66cee047-c868-48ac-a5c2-ec230a2274e3",
       "Flags": 0,
-      "Name": "Map Loader",
-      "Position": "22.10468,10.23383,11.85129",
+      "Name": "UI",
+      "Position": "55.4256,-387.476,1046.537",
       "Enabled": true,
       "Components": [
         {
-          "__type": "Sandbox.MapInstance",
-          "__guid": "053b9354-3f9b-4cbf-837b-932a5a04f3ae",
-          "__version": 1,
-          "EnableCollision": true,
-          "MapName": "facepunch.datacore",
-          "NoOrigin": true,
-          "OnMapLoaded": null,
-          "OnMapUnloaded": null,
-          "UseMapFromLaunch": true
-        },
-        {
-          "__type": "MapPlayerSpawner",
-          "__guid": "7b313637-4f48-4bd3-ae24-18d6389d45bd"
+          "__type": "Sandbox.ScreenPanel",
+          "__guid": "95f61551-065c-4412-8f96-a99621d0555d",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ScaleStrategy": "FollowDesktopScaling",
+          "ZIndex": 100
         }
       ],
-      "Children": []
+      "Children": [
+        {
+          "__guid": "5c673de9-a7fd-43fa-98e2-dd28a882bd68",
+          "Flags": 0,
+          "Name": "Chat",
+          "Enabled": true,
+          "NetworkMode": 1,
+          "Components": [
+            {
+              "__type": "Chat",
+              "__guid": "985588db-f75c-4ef0-a141-6da603c5fe1d"
+            }
+          ]
+        },
+        {
+          "__guid": "de8144e0-9097-4d00-8cff-f13b67233318",
+          "Flags": 0,
+          "Name": "Scoreboard",
+          "Enabled": true,
+          "Components": [
+            {
+              "__type": "Scoreboard",
+              "__guid": "f78202da-066b-4ebb-8273-d63c9b59cc4a"
+            }
+          ]
+        },
+        {
+          "__guid": "9ca25d97-bab9-4eb9-8622-fc4111cb8adf",
+          "Flags": 0,
+          "Name": "Hud",
+          "Enabled": true,
+          "Components": [
+            {
+              "__type": "Hud",
+              "__guid": "f3159882-fc04-4b93-a652-1ccd9b1cf6a4"
+            }
+          ],
+          "Children": [
+            {
+              "__guid": "941e6cbd-c42d-41a1-9cdb-e6bbbbcc30f8",
+              "Flags": 0,
+              "Name": "Inventory",
+              "Enabled": true,
+              "Components": [
+                {
+                  "__type": "Inventory",
+                  "__guid": "17161ed8-5572-4448-a8c2-94d34804e22f",
+                  "CancelSound": "audio/ui/inventory-cancel.sound",
+                  "SelectSound": "audio/ui/inventory-select.sound",
+                  "SwitchSound": "audio/ui/inventory-switch.sound"
+                }
+              ]
+            },
+            {
+              "__guid": "550829a6-d1e5-4b13-85d5-bb0b465a7532",
+              "Flags": 0,
+              "Name": "CrosshairTooltip",
+              "Enabled": true,
+              "Components": [
+                {
+                  "__type": "Sandbox.CrosshairTooltip",
+                  "__guid": "e9e06e7d-8c10-42fe-a737-b9736ff32210"
+                }
+              ]
+            },
+            {
+              "__guid": "9198aa42-df9f-4ac9-98c8-49fa0ffab8f7",
+              "Flags": 0,
+              "Name": "Collectables",
+              "Enabled": true,
+              "Components": [
+                {
+                  "__type": "Sandbox.Collectables",
+                  "__guid": "3d8db16f-fdb8-4a31-a318-3ec538b066b3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "SceneProperties": {
@@ -143,9 +195,7 @@
     "ThreadedAnimation": true,
     "TimeScale": 1,
     "UseFixedUpdate": true,
-    "Metadata": {
-      "Title": "minimal"
-    },
+    "Metadata": {},
     "NavMesh": {
       "Enabled": false,
       "IncludeStaticBodies": true,
@@ -160,7 +210,7 @@
     }
   },
   "ResourceVersion": 2,
-  "Title": "minimal",
+  "Title": null,
   "Description": null,
   "__references": [],
   "__version": 2
