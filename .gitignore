@@ -6,15 +6,23 @@
 .vs/*
 .vscode/*
 *.csproj
-obj/*
+obj
+bin
 Properties/*
 code/obj/*
 code/Properties/*
-code/GlobalSuppressions.cs
 
 # Auto-generated asset related files
+.sbox/*
 *.generated.*
 *.*_c
+!*.shader_c
 *.los
-*.o
-*.rom
+*.vpk
+*launchSettings.json
+*.sln
+
+*idea
+
+# Exported / standalone games
+Exports/
