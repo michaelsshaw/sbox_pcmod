@@ -10,6 +10,7 @@
         {
           "__type": "Sandbox.SceneInformation",
           "__guid": "49a6e898-c19d-46f8-8c8e-ac2d1ecd875a",
+          "Changes": "",
           "Description": "",
           "SceneTags": "",
           "Title": "minimal"
@@ -49,8 +50,8 @@
           "ExposureBias": 2,
           "ExposureCompensation": 0,
           "ExposureMethod": "RGB",
-          "MaximumExposure": 3,
-          "MinimumExposure": 0,
+          "MaximumExposure": 3.91,
+          "MinimumExposure": 2.51,
           "Mode": "Legacy",
           "Rate": 1
         },
@@ -58,8 +59,10 @@
           "__type": "Sandbox.Bloom",
           "__guid": "308d42e8-ef37-47c1-bd44-af456b34ba64",
           "BloomColor": {
+            "blend": "Linear",
             "color": [
               {
+                "t": 0,
                 "c": "1,1,1,1"
               },
               {
@@ -71,14 +74,18 @@
           },
           "BloomCurve": [
             {
+              "x": 0,
+              "y": 0,
               "in": -1.6799997,
-              "out": 1.6799997
+              "out": 1.6799997,
+              "mode": "Mirrored"
             },
             {
               "x": 1,
               "y": 1,
               "in": -0.57142836,
-              "out": 0.57142836
+              "out": 0.57142836,
+              "mode": "Mirrored"
             }
           ],
           "Mode": "Additive",
@@ -100,11 +107,23 @@
         {
           "__type": "Sandbox.Vignette",
           "__guid": "f8959bfb-3630-4b42-81be-def4d1d6a301",
+          "__enabled": false,
           "Center": "0.5,0.5",
           "Color": "0,0,0,1",
           "Intensity": 0.51,
           "Roundness": 0,
           "Smoothness": 1
+        },
+        {
+          "__type": "Sandbox.AmbientOcclusion",
+          "__guid": "f4d580cd-4246-4b2d-ad8f-b3a2981226cb",
+          "__version": 1,
+          "DenoiseMode": "Temporal",
+          "FalloffRange": 0.75,
+          "Intensity": 0.15,
+          "Quality": "High",
+          "Radius": 128,
+          "ThinCompensation": 0
         }
       ]
     },
@@ -132,6 +151,26 @@
         }
       ],
       "Children": []
+    },
+    {
+      "__guid": "0dab73a6-c00d-444c-8021-a0b48d8d629d",
+      "Flags": 0,
+      "Name": "apple2",
+      "Position": "926.5575,-261.2753,897.6455",
+      "Rotation": "-0.005452731,0.000320334,0.998269,0.05856131",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.Prop",
+          "__guid": "ca2f314f-f4e5-44a5-b8e5-4232cbb663fe",
+          "BodyGroups": 18446744073709551615,
+          "Health": 0,
+          "IsStatic": false,
+          "Model": "models/apple2.vmdl",
+          "StartAsleep": false,
+          "Tint": "1,1,1,1"
+        }
+      ]
     }
   ],
   "SceneProperties": {
