@@ -2,17 +2,26 @@
 
 using Sandbox.Rendering;
 
-public struct TerminalPos
+/// <summary>
+/// A character that can be displayed in the terminal.
+/// </summary>
+public struct TerminalChar
 {
-	public int Row;
-	public int Column;
-
-	public TerminalPos( int row, int column )
+	public TerminalChar(byte character, byte color)
 	{
-		Row = row;
-		Column = column;
+		this.Character = character;
+		this.Color = color;
 	}
 
+	/// <summary>
+	/// The ASCII code of the character to write.
+	/// </summary>
+	public byte Character;
+
+	/// <summary>
+	/// The 4-bit colors of the character & background
+	/// </summary>
+	public byte Color;
 }
 
 /// <summary>
@@ -21,7 +30,7 @@ public struct TerminalPos
 public class TerminalScreen
 {
 
-	private char[] Contents;
+	public TerminalChar[] Contents { get; }
 
 	public int Width { get; private set; }
 
@@ -29,48 +38,38 @@ public class TerminalScreen
 
 	public TerminalScreen( int width, int height )
 	{
-		Contents = new char[width * height];
+		Contents = new TerminalChar[width * height];
 		this.Width = width;
 		this.Height = height;
 	}
 
-	public TerminalScreen() : this( 132, 24 ) { }
+	public TerminalScreen() : this( 80, 24 ) { }
 
 	public TerminalScreen( TerminalScreen other )
 	{
 		this.Width = other.Width;
 		this.Height = other.Height;
-		this.Contents = (char[])other.Contents.Clone();
+		this.Contents = (TerminalChar[])other.Contents.Clone();
 	}
 
-	public char CharAt( int row, int column )
+	public TerminalChar CharAt( int row, int column )
 	{
 		return Contents[row * Width + column];
 	}
 
-	public char CharAt( ref TerminalPos pos )
-	{
-		return CharAt( pos.Row, pos.Column );
-	}
-
-	public void SetCharAt( int row, int column, char c )
+	public void SetCharAt( int row, int column, TerminalChar c )
 	{
 		Contents[row * Width + column] = c;
 	}
 
-	public void SetCharAt( ref TerminalPos pos, char c )
+	public void SetCharAt(int row, int column, byte c, byte color = 0)
 	{
-		SetCharAt( pos.Row, pos.Column, c );
+		Contents[row * Width + column] = new TerminalChar(c, color);
 	}
 
-	public void Fill( char c )
+	public void Fill( TerminalChar c )
 	{
 		Array.Fill( Contents, c );
-	}
-
-	public string GetRow( int index )
-	{
-		return new string( Contents, index * Width, Width );
 	}
 
 	/// <summary>
@@ -82,7 +81,7 @@ public class TerminalScreen
 	/// <param name="wrap">If true, string will wrap to the next line. 
 	/// Otherwise, it will be cut off at the end of the row.</param>
 	/// <returns>The location of the "cursor" after the string is written.</returns>
-	public TerminalPos WriteString( string str, int startRow, int startColumn = 0, bool wrap = false )
+	public void WriteString( string str, ushort startRow, ushort startColumn = 0, bool wrap = false )
 	{
 		int row = startRow;
 		int col = startColumn;
@@ -100,15 +99,13 @@ public class TerminalScreen
 				}
 				else
 				{
-					return new TerminalPos(row, col);
 				}
 			}
 
-			Contents[row * Width + col] = c;
+			Contents[row * Width + col] = new TerminalChar((byte)c, 0);
 			col++;
 			count++;
 		}
 
-		return new TerminalPos(row, col);
 	}
 }
