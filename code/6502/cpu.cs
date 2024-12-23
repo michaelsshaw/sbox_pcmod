@@ -31,41 +31,41 @@ public partial class cpu
 		opcodes_populate();
 	}
 
-	public virtual byte read_mem(ushort addr)
+	public virtual byte read_mem( ushort addr )
 	{
 		cycles += 1;
 		return mem[addr];
 	}
 
-	public virtual void write_mem(ushort addr, byte val)
+	public virtual void write_mem( ushort addr, byte val )
 	{
 		cycles += 1;
 		mem[addr] = val;
 	}
 
-	public void set_flag(byte flag, bool cond)
+	public void set_flag( byte flag, bool cond )
 	{
-		if (cond)
+		if ( cond )
 			flags |= flag;
 		else
 			flags &= (byte)(~flag);
 	}
 
-	public bool read_flag(byte flag)
+	public bool read_flag( byte flag )
 	{
 		return (flags & flag) == flag;
 	}
 
-	public void push(byte val)
+	public void push( byte val )
 	{
-		write_mem((ushort)(0x0100 | SP), val);
+		write_mem( (ushort)(0x0100 | SP), val );
 		SP -= 1;
 	}
 
 	public byte pop()
 	{
 		SP += 1;
-		return read_mem((ushort)(0x0100 | SP));
+		return read_mem( (ushort)(0x0100 | SP) );
 	}
 
 	/* cycle: executes an entire instruction at once
@@ -75,36 +75,30 @@ public partial class cpu
 	 */
 	public void cycle()
 	{
-		if (cycles == 0) {
-			byte ins = read_mem(PC);
+		byte ins = read_mem( PC );
 
-			opcode op = opcodes[ins];
-			
-			PC += 1;
+		opcode op = opcodes[ins];
 
-			ushort addr = op.adm();
-			print_instruction(ins);
-			op.ins(addr);
+		PC += 1;
 
-			cycles += 1;
-		} else {
-			cycles -= 1;
-		}
+		ushort addr = op.adm();
+		print_instruction( ins );
+		op.ins( addr );
 	}
 
 	public void nmi()
 	{
-		push((byte)(PC >> 8));
-		push((byte)(PC));
+		push( (byte)(PC >> 8) );
+		push( (byte)(PC) );
 
-		set_flag(FLAG_B, false);
-		set_flag(FLAG_5, true);
-		set_flag(FLAG_I, true);
+		set_flag( FLAG_B, false );
+		set_flag( FLAG_5, true );
+		set_flag( FLAG_I, true );
 
-		push(flags);
+		push( flags );
 
-		byte l = read_mem(0xFFFA);
-		ushort h = read_mem(0xFFFB);
+		byte l = read_mem( 0xFFFA );
+		ushort h = read_mem( 0xFFFB );
 
 		h <<= 8;
 		h |= l;
@@ -115,18 +109,19 @@ public partial class cpu
 
 	public void irq()
 	{
-		if (!read_flag(FLAG_I)) {
-			push((byte)(PC >> 8));
-			push((byte)(PC));
+		if ( !read_flag( FLAG_I ) )
+		{
+			push( (byte)(PC >> 8) );
+			push( (byte)(PC) );
 
-			set_flag(FLAG_B, false);
-			set_flag(FLAG_5, true);
-			set_flag(FLAG_I, true);
+			set_flag( FLAG_B, false );
+			set_flag( FLAG_5, true );
+			set_flag( FLAG_I, true );
 
-			push(flags);
+			push( flags );
 
-			byte l = read_mem(0xFFFE);
-			ushort h = read_mem(0xFFFF);
+			byte l = read_mem( 0xFFFE );
+			ushort h = read_mem( 0xFFFF );
 
 			h <<= 8;
 			h |= l;
@@ -138,8 +133,8 @@ public partial class cpu
 
 	public void reset()
 	{
-		byte l = read_mem(0xFFFC);
-		ushort h = read_mem(0xFFFD);
+		byte l = read_mem( 0xFFFC );
+		ushort h = read_mem( 0xFFFD );
 
 		h <<= 8;
 		h |= l;
