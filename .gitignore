@@ -17,3 +17,5 @@ code/Properties/*
 *.vpk
 *.sln
 /.sbox
+
+Blender/*

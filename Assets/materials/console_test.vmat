@@ -1,0 +1,18 @@
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
+{
+	shader "shaders/terminal_screen.shader"
+
+	//---- Texture Filtering ----
+	F_TEXTURE_FILTERING 3 // Point Sample
+
+	g_intTerminalHeight "24"
+	g_intTerminalWidth "80"
+
+	//---- Fog ----
+	g_bFogEnabled "1"
+
+	//---- Textures ----
+	GlyphTexture "textures/uv.png"
+}
