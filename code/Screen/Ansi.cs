@@ -38,7 +38,7 @@
 			ts.SetCharAt( h - 1, x, new TerminalChar( 0, 0 ) );
 	}
 
-	public void LineFeed()
+	void LineFeed()
 	{
 		cx = 0;
 		if ( cy < h - 1 )
@@ -47,7 +47,11 @@
 			Scroll();
 	}
 
-	public void CursorStep()
+	void Bell()
+	{
+	}
+
+	void CursorStep()
 	{
 		if ( cx < w - 1 )
 			cx++;
@@ -77,6 +81,9 @@
 				tc.Color = 0;
 				if ( cx > 0 )
 					cx--;
+				return;
+			case (byte)'\a':
+				Bell();
 				return;
 			default:
 				tc.Character = c;
