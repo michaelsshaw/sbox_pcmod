@@ -1,2 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ig8">
+      <UniqueIdentifier>{9af75255-f7db-4a24-b8a4-104ce0c3dd5f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ig8.cfg">
+      <Filter>ig8</Filter>
+    </None>
+    <None Include="Makefile">
+      <Filter>ig8</Filter>
+    </None>
+  </ItemGroup>
+</Project>
