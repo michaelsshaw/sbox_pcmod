@@ -10,6 +10,8 @@
 
 	byte col;
 
+	bool esc;
+
 	public AnsiTerminal( TerminalScreen ts )
 	{
 		this.ts = ts;
@@ -64,6 +66,9 @@
 		TerminalChar tc = ts.Contents[cy * w + cx];
 		switch ( (byte)c )
 		{
+			case (byte)'\x1b':
+				esc = true;
+				break;
 			case (byte)'\n':
 				LineFeed();
 				return;
