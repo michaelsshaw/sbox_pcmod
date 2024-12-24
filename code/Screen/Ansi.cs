@@ -61,6 +61,21 @@
 			LineFeed();
 	}
 
+	void CursorBack()
+	{
+		if ( cx > 0 )
+			cx--;
+	}
+
+	public void Clear()
+	{
+		for ( int i = 0; i < ts.Contents.Length; i++ )
+			ts.Contents[i] = new TerminalChar( 0, 0 );
+
+		cx = 0;
+		cy = 0;
+	}
+
 	public void PutChar( byte c )
 	{
 		TerminalChar tc = ts.Contents[cy * w + cx];
@@ -77,15 +92,12 @@
 				return;
 			case (byte)'\t':
 				for ( int i = 0; i < 8; i++ )
-				{
 					PutChar( (byte)' ' );
-				}
 				return;
 			case (byte)'\b':
 				tc.Character = 0;
 				tc.Color = 0;
-				if ( cx > 0 )
-					cx--;
+				CursorBack();
 				return;
 			case (byte)'\a':
 				Bell();
